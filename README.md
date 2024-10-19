@@ -1,6 +1,6 @@
 # Emulator
 
-I decide to just write an emulator for the C910 Processor to support [GREENOS]().  I'm anticipating a delay of
+I decided to just write an emulator for the C910 Processor to support [GREENOS](https://github.com/0x0M03II/GreenOS).  I'm anticipating a delay of
 2 weeks to complete this emulator ... I have a job and this is a hobby!
 
 # Additions to Unicorn
