@@ -21,10 +21,24 @@ typedef uint64_t r_length;
  */
 
 typedef enum {
-    UMODE,
-    SMODE,
-    MMODE,
+    MACHINE,
+    SUPERVISOR,
+    USER
 } CPU_MODES;
+
+typedef enum {
+    PIC,
+    APIC,
+    LPIC
+} INTERRUPT_CONTROLLER;
+
+
+union {                     // Should only support one interrupt controller
+
+    struct pic;
+    struct apic;
+    struct lpic;
+} interrupt_controller;
 
 typedef uint8_t byte_order;
 
@@ -61,6 +75,8 @@ struct C910STATE {           // The C910 CPU State , idea based on Qemu
     r_length fpr[32];
 
     r_length pc;
+
+    CPU_MODES CPUMODE;
 
     byte_order endianness;
 
@@ -138,7 +154,6 @@ struct C910STATE {           // The C910 CPU State , idea based on Qemu
     r_length smeh;
     r_length smel;
 
-
     /* User Mode CSRs */
     r_length fflags;
     r_length frm;
@@ -148,6 +163,8 @@ struct C910STATE {           // The C910 CPU State , idea based on Qemu
     r_length instret;
     r_length hpmcountern;
     r_length fxcr;
+
+    INTERRUPT_CONTROLLER ic;
 
 };
 
