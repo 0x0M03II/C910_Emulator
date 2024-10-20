@@ -9,6 +9,7 @@
  */
 
 #include "cpu.h"
+#include "interrupts.h"
 #include "register-bits.h"
 
 
@@ -54,6 +55,13 @@ static c910_csr_operations csr_ops[CSR_TB_SIZE] = {
     
     // M-Mode Exception Registers
     [ CSR_MSTATUS ] = { generic,  }, 
+};
+
+
+InterruptHandler handlers[] = {
+    handle_apic,
+    handle_lpic,
+    handle_pic
 };
 
 
@@ -105,10 +113,10 @@ static int write_mstatus(struct C910STATE *state, int csr_number, r_length *reg_
          * bit   set to SPIE when CPU exits int service program
         */
     } else {
-        state->ic;
+        handlers[state->active_controller](&state->interrupt_controller);
     }
 
     if (state->mie == 1) {
-
+       
     }
 }

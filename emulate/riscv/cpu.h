@@ -26,19 +26,18 @@ typedef enum {
     USER
 } CPU_MODES;
 
+struct pic {};
+struct apic {};
+struct lpic {};
+
+typedef void (* InterruptHandler)(union InterruptController *);
+
 typedef enum {
     PIC,
     APIC,
     LPIC
 } INTERRUPT_CONTROLLER;
 
-
-union {                     // Should only support one interrupt controller
-
-    struct pic;
-    struct apic;
-    struct lpic;
-} interrupt_controller;
 
 typedef uint8_t byte_order;
 
@@ -164,7 +163,8 @@ struct C910STATE {           // The C910 CPU State , idea based on Qemu
     r_length hpmcountern;
     r_length fxcr;
 
-    INTERRUPT_CONTROLLER ic;
+    union InterruptController interrupt_controller;
+    INTERRUPT_CONTROLLER active_controller;
 
 };
 
